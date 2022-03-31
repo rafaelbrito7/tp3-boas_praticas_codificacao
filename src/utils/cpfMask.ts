@@ -1,8 +1,10 @@
 export const mask = (v: string): string => {
-    v = v.replace(/\D/g, "")
-    v = v.replace(/(\d{3})(\d)/, "$1.$2")
-    v = v.replace(/(\d{3})(\d)/, "$1.$2")
-    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+  let cpf = v;
 
-    return v;
-}
+  cpf = v.replace(/\D/g, '');
+  cpf = v.replace(/(\d{3})(\d)/, '$1.$2');
+  cpf = v.replace(/(\d{3})(\d)/, '$1.$2');
+  cpf = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+  return cpf;
+};

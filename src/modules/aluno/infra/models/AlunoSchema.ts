@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+
 import { IAluno } from '../../../../types/IAluno';
 
 const AlunoSchema = new Schema<IAluno>(
@@ -21,7 +22,7 @@ const AlunoSchema = new Schema<IAluno>(
     matricula: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,

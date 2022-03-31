@@ -1,28 +1,40 @@
-import AlunoSchema from "../infra/models/AlunoSchema";
-import { DuplicatedEntityError } from "../../../errors/DuplicatedEntityError";
-import { IAlunoRepository } from "../repos/IAlunoRepository";
-import { IAlunoRequestDTO, IAlunoService  } from "./IAlunoService";
+import { DuplicatedEntityError } from '../../../errors/DuplicatedEntityError';
+import AlunoSchema from '../infra/models/AlunoSchema';
+import { IAlunoRepository } from '../repos/IAlunoRepository';
+import { IAlunoRequestDTO, IAlunoService } from './IAlunoService';
 
 export class AlunoService implements IAlunoService {
-    private alunoRepository: IAlunoRepository;
+  private alunoRepository: IAlunoRepository;
 
-    constructor(alunoRepository: IAlunoRepository) {
-      this.alunoRepository = alunoRepository;
-    } 
+  constructor(alunoRepository: IAlunoRepository) {
+    this.alunoRepository = alunoRepository;
+  }
 
-    async cria({ nome, endereco, numeroCelular, matricula, email, cpf }: IAlunoRequestDTO) {
-        const alunoExiste = await this.alunoRepository.encontraPorEmail(email);
+  async cria({
+    nome,
+    endereco,
+    numeroCelular,
+    matricula,
+    email,
+    cpf,
+  }: IAlunoRequestDTO) {
+    const alunoExiste = await this.alunoRepository.encontraPorEmail(email);
 
-        if(alunoExiste)
-            throw new DuplicatedEntityError("Aluno existente!");
+    if (alunoExiste) throw new DuplicatedEntityError('Aluno existente!');
 
-        const novoCpfFormatado = cpf.ValorFormatado(cpf.valor);
-        
-        const novoAluno = await AlunoSchema.create({ nome, endereco, numeroCelular, matricula, email, novoCpfFormatado});
+    const novoCpfFormatado = cpf.ValorFormatado(cpf.valor);
 
-        const aluno = await this.alunoRepository.armazena(novoAluno);
+    const novoAluno = await AlunoSchema.create({
+      nome,
+      endereco,
+      numeroCelular,
+      matricula,
+      email,
+      cpf: novoCpfFormatado,
+    });
 
-        return aluno;
-    }   
+    const aluno = await this.alunoRepository.armazena(novoAluno);
+
+    return aluno;
+  }
 }
-

@@ -6,6 +6,6 @@ const routes = Router();
 
 routes.use('/alunos', alunoRouter);
 
-//todas as rotas são relacionadas nesse arquivo.
+// todas as rotas são relacionadas nesse arquivo.
 
 export { routes };

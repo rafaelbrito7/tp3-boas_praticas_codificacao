@@ -2,8 +2,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
 
-import { mongoDbConnection } from './mongoose/mongoose';
 import { routes } from '../http/api/index';
+import { mongoDbConnection } from './mongoose/mongoose';
 
 import 'dotenv/config';
 

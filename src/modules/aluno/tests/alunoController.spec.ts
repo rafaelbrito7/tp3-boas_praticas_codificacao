@@ -6,7 +6,6 @@ import request from 'supertest';
 
 import { app } from '../../../infra/config/app';
 
-
 jest.setTimeout(10000000);
 
 describe('Create User Controller', () => {

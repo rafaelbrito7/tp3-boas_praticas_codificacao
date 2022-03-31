@@ -11,7 +11,14 @@ interface IAlunoRequestDTO {
 }
 
 interface IAlunoService {
-  cria({ nome, endereco, numeroCelular, matricula, email, cpf }: IAlunoRequestDTO): Promise<IAluno>;
+  cria({
+    nome,
+    endereco,
+    numeroCelular,
+    matricula,
+    email,
+    cpf,
+  }: IAlunoRequestDTO): Promise<IAluno>;
 }
 
 export { IAlunoRequestDTO, IAlunoService };
