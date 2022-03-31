@@ -18,11 +18,18 @@ export class AlunoService implements IAlunoService {
     email,
     cpf,
   }: IAlunoRequestDTO) {
-    const alunoExiste = await this.alunoRepository.encontraPorEmail(email);
-
-    if (alunoExiste) throw new DuplicatedEntityError('Aluno existente!');
-
     const novoCpfFormatado = cpf.ValorFormatado(cpf.valor);
+
+    const verificaEmailDuplicado = await this.alunoRepository.encontraPorEmail(
+      email,
+    );
+
+    const verificaCPFDuplicado = await this.alunoRepository.encontraPorCPF(
+      novoCpfFormatado,
+    );
+
+    if (verificaEmailDuplicado || verificaCPFDuplicado)
+      throw new DuplicatedEntityError('Aluno existente!');
 
     const novoAluno = await AlunoSchema.create({
       nome,

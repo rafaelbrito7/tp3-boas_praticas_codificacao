@@ -5,6 +5,7 @@ interface IAlunoRepository {
   encontraTodos(): Promise<IAluno[]>;
   encontraUm(id: string): Promise<IAluno | null>;
   encontraPorEmail(email: string): Promise<IAluno | null>;
+  encontraPorCPF(cpf: string): Promise<IAluno | null>;
   remove(id: string): Promise<boolean>;
 }
 

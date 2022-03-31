@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 const { resolve } = require('path');
 
 require('dotenv').config({
-  path: resolve(__dirname, '..', '..', '.env.test'),
+  path: resolve(__dirname, '..', '..', '..', '..', '.env.test'),
 });
 
 class CustomEnvironment extends NodeEnvironment {

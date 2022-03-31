@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { DuplicatedEntityError } from '../../../errors/DuplicatedEntityError';
 import { IAlunoService } from '../services/IAlunoService';
 import { CPF } from '../ValueObject/CPF';
 
@@ -11,23 +12,29 @@ export class AlunoController {
   }
 
   async recebeNovoAluno(request: Request, response: Response) {
-    console.log(request.body);
-    const { nome, endereco, numeroCelular, matricula, email, cpf } =
-      request.body;
+    try {
+      const { nome, endereco, numeroCelular, matricula, email, cpf } =
+        request.body;
 
-    const novoCPF = new CPF(cpf);
+      const aluno = await this.alunoService.cria({
+        nome,
+        endereco,
+        numeroCelular,
+        matricula,
+        email,
+        cpf: new CPF(cpf),
+      });
 
-    console.log(novoCPF);
+      return response.json(aluno);
+    } catch (error) {
+      if (error instanceof DuplicatedEntityError)
+        return response.status(error.statusCode).json({
+          name: error.name,
+          message: error.message,
+          statusCode: error.statusCode,
+        });
 
-    const aluno = await this.alunoService.cria({
-      nome,
-      endereco,
-      numeroCelular,
-      matricula,
-      email,
-      cpf: novoCPF,
-    });
-
-    return response.json(aluno);
+      return response.status(500).json({ error });
+    }
   }
 }

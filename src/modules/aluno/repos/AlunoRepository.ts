@@ -1,5 +1,5 @@
-import AlunoSchema from '../infra/models/AlunoSchema';
 import { IAluno } from '../../../types/IAluno';
+import AlunoSchema from '../infra/models/AlunoSchema';
 import { IAlunoRepository } from './IAlunoRepository';
 
 class AlunoRepository implements IAlunoRepository {
@@ -29,6 +29,12 @@ class AlunoRepository implements IAlunoRepository {
 
   async encontraPorEmail(email: string): Promise<IAluno | null> {
     const aluno = await AlunoSchema.findOne({ where: { email } });
+
+    return aluno;
+  }
+
+  async encontraPorCPF(cpf: string): Promise<IAluno | null> {
+    const aluno = await AlunoSchema.findOne({ where: { cpf } });
 
     return aluno;
   }
