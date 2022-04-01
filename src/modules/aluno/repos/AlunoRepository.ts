@@ -28,13 +28,13 @@ class AlunoRepository implements IAlunoRepository {
   }
 
   async encontraPorEmail(email: string): Promise<IAluno | null> {
-    const aluno = await AlunoSchema.findOne({ where: { email } });
+    const aluno = await AlunoSchema.findOne({ email });
 
     return aluno;
   }
 
   async encontraPorCPF(cpf: string): Promise<IAluno | null> {
-    const aluno = await AlunoSchema.findOne({ where: { cpf } });
+    const aluno = await AlunoSchema.findOne({ cpf });
 
     return aluno;
   }
