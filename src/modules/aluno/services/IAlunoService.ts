@@ -1,5 +1,4 @@
-import { IAluno } from '../../../types/IAluno';
-import { CPF } from '../ValueObject/CPF';
+import { IAluno } from '../../../types/entities/IAluno';
 
 interface IAlunoRequestDTO {
   nome: string;
@@ -7,7 +6,6 @@ interface IAlunoRequestDTO {
   numeroCelular: string;
   matricula: string;
   email: string;
-  cpf: CPF;
 }
 
 interface IAlunoService {
@@ -17,7 +15,6 @@ interface IAlunoService {
     numeroCelular,
     matricula,
     email,
-    cpf,
   }: IAlunoRequestDTO): Promise<IAluno>;
 }
 

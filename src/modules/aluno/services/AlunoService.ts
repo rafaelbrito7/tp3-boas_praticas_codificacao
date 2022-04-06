@@ -1,12 +1,12 @@
 import { DuplicatedEntityError } from '../../../errors/DuplicatedEntityError';
 import AlunoSchema from '../infra/models/AlunoSchema';
-import { IAlunoRepository } from '../repos/IAlunoRepository';
+import { AlunoRepository } from '../repos/AlunoRepository';
 import { IAlunoRequestDTO, IAlunoService } from './IAlunoService';
 
 export class AlunoService implements IAlunoService {
-  private alunoRepository: IAlunoRepository;
+  private alunoRepository: AlunoRepository;
 
-  constructor(alunoRepository: IAlunoRepository) {
+  constructor(alunoRepository: AlunoRepository) {
     this.alunoRepository = alunoRepository;
   }
 
@@ -16,32 +16,24 @@ export class AlunoService implements IAlunoService {
     numeroCelular,
     matricula,
     email,
-    cpf,
   }: IAlunoRequestDTO) {
-    const novoCpfFormatado = cpf.ValorFormatado(cpf.valor);
+    const verificaSeAlunoExiste =
+      await this.alunoRepository.recuperaPorMatricula(matricula);
 
-    const verificaEmailDuplicado = await this.alunoRepository.encontraPorEmail(
-      email,
-    );
+    if (verificaSeAlunoExiste) {
+      throw new DuplicatedEntityError('Aluno já cadastrado');
+    }
 
-    const verificaCPFDuplicado = await this.alunoRepository.encontraPorCPF(
-      novoCpfFormatado,
-    );
-
-    if (verificaEmailDuplicado || verificaCPFDuplicado)
-      throw new DuplicatedEntityError('Aluno existente!');
-
-    const novoAluno = await AlunoSchema.create({
+    const novoAluno = new AlunoSchema({
       nome,
       endereco,
       numeroCelular,
-      matricula,
       email,
-      cpf: novoCpfFormatado,
+      matricula,
     });
 
-    const aluno = await this.alunoRepository.armazena(novoAluno);
+    const resultado = await this.alunoRepository.armazena(novoAluno);
 
-    return aluno;
+    return resultado;
   }
 }

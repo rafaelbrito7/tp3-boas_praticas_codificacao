@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 
 import { DuplicatedEntityError } from '../../../errors/DuplicatedEntityError';
 import { IAlunoService } from '../services/IAlunoService';
-import { CPF } from '../ValueObject/CPF';
 
 export class AlunoController {
   private alunoService: IAlunoService;
@@ -22,7 +21,6 @@ export class AlunoController {
         numeroCelular,
         matricula,
         email,
-        cpf: new CPF(cpf),
       });
 
       return response.json(aluno);

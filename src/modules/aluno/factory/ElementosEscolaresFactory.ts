@@ -2,13 +2,14 @@ import { AlunoController } from '../controllers/AlunoController';
 import { AlunoRepository } from '../repos/AlunoRepository';
 import { AlunoService } from '../services/AlunoService';
 
-export class AlunoFactory {
-  private alunoRepository = new AlunoRepository();
-  private alunoService = new AlunoService(this.alunoRepository);
-  private alunoController = new AlunoController(this.alunoService);
-
-  async lidaComNovoAluno() {
-    return this.alunoController;
+export class ElementosEscolaresFactory {
+  static pegaElementoEscolar(tipo: string) {
+    switch (tipo) {
+      case 'aluno':
+        return new AlunoController(new AlunoService(new AlunoRepository()));
+      default:
+        throw new Error('Tipo de elemento escolar não encontrado');
+    }
   }
 }
 

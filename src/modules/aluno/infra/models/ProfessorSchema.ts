@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const AlunoSchema = new Schema(
+const ProfessorSchema = new Schema(
   {
     nome: {
       type: String,
@@ -33,4 +33,4 @@ const AlunoSchema = new Schema(
   },
 );
 
-export default model('Aluno', AlunoSchema);
+export default model('Professor', ProfessorSchema);

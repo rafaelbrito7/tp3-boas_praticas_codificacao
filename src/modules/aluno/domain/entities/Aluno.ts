@@ -1,26 +1,31 @@
-import { CPF } from '../../ValueObject/CPF';
+import { IAluno } from '../../../../types/entities/IAluno';
 
 export class Aluno {
-  public _nome: string;
-  public _endereco: string;
-  public _numeroCelular: string;
-  public _matricula: string;
-  public _email: string;
-  public _cpf: CPF;
+  private _aluno: IAluno;
 
-  constructor(
-    nome: string,
-    endereco: string,
-    numeroCelular: string,
-    matricula: string,
-    email: string,
-    cpf: CPF,
-  ) {
-    this._nome = nome;
-    this._endereco = endereco;
-    this._numeroCelular = numeroCelular;
-    this._matricula = matricula;
-    this._email = email;
-    this._cpf = cpf;
+  constructor(aluno: IAluno) {
+    this._aluno = aluno;
+  }
+
+  get nome(): string {
+    return this._aluno.nome;
+  }
+
+  get endereco(): string {
+    return this._aluno.endereco;
+  }
+
+  get numeroCelular(): string {
+    return this._aluno.numeroCelular;
+  }
+
+  get email(): string {
+    return this._aluno.email;
+  }
+
+  get matricula(): string {
+    return this._aluno.matricula;
   }
 }
+
+Object.seal(Aluno);

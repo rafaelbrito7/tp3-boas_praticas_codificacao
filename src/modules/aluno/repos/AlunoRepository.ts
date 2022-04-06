@@ -1,43 +1,18 @@
-import { IAluno } from '../../../types/IAluno';
+import mongoose from 'mongoose';
+
+import { BaseError } from '../../../errors/BaseError';
+import { IAluno } from '../../../types/entities/IAluno';
 import AlunoSchema from '../infra/models/AlunoSchema';
-import { IAlunoRepository } from './IAlunoRepository';
+import { BaseRepository } from './BaseRepository';
 
-class AlunoRepository implements IAlunoRepository {
-  async armazena(aluno: IAluno): Promise<IAluno> {
-    const novoAluno = await AlunoSchema.create(aluno);
-
-    return novoAluno;
+export class AlunoRepository extends BaseRepository<IAluno> {
+  constructor() {
+    super(AlunoSchema);
   }
 
-  async remove(id: string): Promise<boolean> {
-    await AlunoSchema.findByIdAndDelete(id);
+  async recuperaPorMatricula(matricula: string): Promise<IAluno | null> {
+    const result = await this._model.findOne({ matricula });
 
-    return true;
-  }
-
-  async encontraTodos(): Promise<IAluno[]> {
-    const alunos = await AlunoSchema.find<IAluno>();
-
-    return alunos;
-  }
-
-  async encontraUm(id: string): Promise<IAluno | null> {
-    const aluno = await AlunoSchema.findOne({ where: { id } });
-
-    return aluno;
-  }
-
-  async encontraPorEmail(email: string): Promise<IAluno | null> {
-    const aluno = await AlunoSchema.findOne({ email });
-
-    return aluno;
-  }
-
-  async encontraPorCPF(cpf: string): Promise<IAluno | null> {
-    const aluno = await AlunoSchema.findOne({ cpf });
-
-    return aluno;
+    return result?.toObject() as IAluno | null;
   }
 }
-
-export { AlunoRepository };

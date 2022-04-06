@@ -1,15 +1,13 @@
 import { Router, Request, Response } from 'express';
 
-import { AlunoFactory } from '../../../factory/AlunoFactory';
+import { ElementosEscolaresFactory } from '../../../factory/ElementosEscolaresFactory';
 
-const alunoFactory = new AlunoFactory();
+const alunoFactory = ElementosEscolaresFactory.pegaElementoEscolar('aluno');
 
 const alunoRouter = Router();
 
 alunoRouter.post('/', async (request: Request, response: Response) => {
-  await (
-    await alunoFactory.lidaComNovoAluno()
-  ).recebeNovoAluno(request, response);
+  await alunoFactory.recebeNovoAluno(request, response);
 });
 
 export { alunoRouter };
