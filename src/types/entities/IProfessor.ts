@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { CPF } from '../../modules/aluno/ValueObject/CPF';
+import { CPF } from '../../ValueObject/CPF';
 
 export interface IProfessor extends mongoose.Document {
   nome: string;
