@@ -5,18 +5,40 @@
 import request from 'supertest';
 
 import { app } from '../../../infra/config/app';
+import AlunoSchema from '../infra/models/AlunoSchema';
+import { AlunoRepository } from '../repos/AlunoRepository';
+import { AlunoService } from '../services/AlunoService';
 
 jest.setTimeout(10000000);
 
-describe('ALUNO CONTROLLER', () => {
+describe('Unitário alunos', () => {
+  it('deve ser possível criar um novo aluno', async () => {
+    const alunoService = new AlunoService(new AlunoRepository());
+
+    const novoAluno = new AlunoSchema({
+      nome: 'Teste da Silva',
+      endereco: 'Rua do Teste, 123',
+      numeroCelular: '+5521999999999',
+      matricula: '123123123',
+      email: 'testing@test.com',
+    });
+
+    const resultado = await alunoService.cria(novoAluno);
+
+    console.log(resultado);
+
+    expect(resultado).toHaveProperty('_id');
+  });
+});
+
+describe('Integração alunos', () => {
   it('deve ser possível criar um novo aluno', async () => {
     const response = await request(app).post('/alunos').send({
-      nome: 'Rafael Brito',
-      endereco: 'Rua Jornalista Mario Galvão, 348',
-      numeroCelular: '+5521984941346',
-      matricula: '175873',
-      email: 'rafael.souzabrito7@gmail.com',
-      cpf: '175.873.247-47',
+      nome: 'Teste da Silva',
+      endereco: 'Rua do Teste, 123',
+      numeroCelular: '+5521999999999',
+      matricula: '123123123',
+      email: 'testing@test.com',
     });
 
     console.log(response.body);
@@ -27,44 +49,26 @@ describe('ALUNO CONTROLLER', () => {
 
   it('não deve ser possível criar um aluno repetido', async () => {
     await request(app).post('/alunos').send({
-      nome: 'Aluno Existente',
-      endereco: 'Rua do Aluno Existente, 123',
+      nome: 'Teste Existente',
+      endereco: 'Rua do Teste Existente, 123',
       numeroCelular: '+5521999999999',
       matricula: '999999',
-      email: 'aluno.existente@email.com',
+      email: 'teste.existente@email.com',
       cpf: '999.999.999-99',
     });
 
     const response = await request(app).post('/alunos').send({
-      nome: 'Aluno Existente',
-      endereco: 'Rua do Aluno Existente, 123',
+      nome: 'Teste Existente',
+      endereco: 'Rua do Teste Existente, 123',
       numeroCelular: '+5521999999999',
       matricula: '999999',
-      email: 'aluno.existente@email.com',
+      email: 'teste.existente@email.com',
       cpf: '999.999.999-99',
     });
 
     console.log(response.body);
 
     expect(response.status).toBe(409);
-    expect(response.body.message).toBe('Aluno existente!');
+    expect(response.body.message).toBe('Aluno já cadastrado');
   });
-
-  // it('should be able to find an existing user', async () => {
-  //   const user = await request(app).post('/user').send({
-  //     name: 'ExistingTest',
-  //     address: 'Existing Test Avenue',
-  //     phoneNumber: '+5521999999999',
-  //     email: 'testexisting@test.com',
-  //     password: 'ExistingTestSecret',
-  //     cnpj: '99999999999',
-  //     socialReason: 'Existing Test Company',
-  //     type: userType.Contractor,
-  //   });
-
-  //   const response = await request(app).get('/user').send(user.body.id);
-
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('_id');
-  // });
 });

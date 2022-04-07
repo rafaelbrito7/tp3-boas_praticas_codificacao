@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 
-import { ElementosEscolaresFactory } from '../../../factory/ElementosEscolaresFactory';
+import { ElementosEscolaresFactory } from '../../../../../factories/ElementosEscolaresFactory';
 
 const alunoFactory = ElementosEscolaresFactory.pegaElementoEscolar('aluno');
 

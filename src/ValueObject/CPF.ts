@@ -1,5 +1,3 @@
-import { mask } from '../../../utils/cpfMask';
-
 export class CPF {
   private _valor: string;
 
@@ -15,8 +13,13 @@ export class CPF {
     this._valor = valor;
   }
 
-  ValorFormatado(valor: string): string {
-    const cpfFormatado: string = mask(valor);
-    return cpfFormatado;
+  formatarCPF(valor: string): string {
+    const cpf = valor.replace(/[^\d]+/g, '').trim();
+
+    if (cpf === '' || cpf.length !== 11) {
+      return 'CPF inválido';
+    }
+
+    return cpf;
   }
 }

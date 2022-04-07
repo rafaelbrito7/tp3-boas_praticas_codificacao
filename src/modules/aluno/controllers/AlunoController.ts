@@ -12,8 +12,7 @@ export class AlunoController {
 
   async recebeNovoAluno(request: Request, response: Response) {
     try {
-      const { nome, endereco, numeroCelular, matricula, email, cpf } =
-        request.body;
+      const { nome, endereco, numeroCelular, matricula, email } = request.body;
 
       const aluno = await this.alunoService.cria({
         nome,
